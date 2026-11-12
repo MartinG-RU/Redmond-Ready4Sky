@@ -1,0 +1,47 @@
+# ПРИМЕР: замените MAC, модели и secrets.yaml перед сборкой и прошивкой.
+esphome:
+  name: ready4sky-gateway
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+time:
+  - platform: homeassistant
+    id: r4s_clock
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+
+ready4sky:
+  time_id: r4s_clock
+
+skykettle:
+  - mac_address: AA:BB:CC:DD:EE:01  # ЗАМЕНИТЬ
+    model: RK-G200S                  # ЗАМЕНИТЬ на точную модель
+    informing:
+      temperature:
+        name: Температура чайника
+    controlling:
+      power:
+        name: Чайник
+
+skyplug:
+  - mac_address: AA:BB:CC:DD:EE:02  # ЗАМЕНИТЬ
+    model: RSP-100S                 # ЗАМЕНИТЬ на точную модель
+    controlling:
+      power:
+        name: Розетка

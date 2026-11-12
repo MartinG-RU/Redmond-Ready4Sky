@@ -1,0 +1,35 @@
+name: Validation and compile
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install 'esphome==2026.10.1' pytest
+      - run: python -m pytest tests/test_schema.py -q
+      - run: bash tests/native/run.sh
+
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        fixture: [tests/all-drivers-native.yaml, tests/all-drivers.yaml]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install 'esphome==2026.10.1'
+      - name: Compile all nine drivers (fixture must not be flashed)
+        run: esphome compile '${{ matrix.fixture }}'

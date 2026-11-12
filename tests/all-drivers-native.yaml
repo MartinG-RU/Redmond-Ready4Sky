@@ -1,0 +1,84 @@
+# Compile-only fixture, NOT a configuration to flash. Synthetic MAC addresses.
+esphome:
+  name: r4s-all-native
+esp32:
+  board: esp32dev
+  toolchain: esp-idf
+  framework:
+    type: esp-idf
+logger:
+wifi:
+  ssid: "example-test-only"
+  password: "example-test-password"
+api:
+time:
+  - platform: homeassistant
+    id: r4s_clock
+external_components:
+  - source:
+      type: local
+      path: ../components
+ready4sky:
+  time_id: r4s_clock
+skykettle:
+  - mac_address: 00:00:00:00:00:01
+    model: RK-G200S
+    informing:
+      temperature: {name: Kettle temperature}
+    controlling:
+      power: {name: Kettle power}
+      target_temperature: {name: Kettle target}
+      boil_time_adjustment: {name: Kettle boil adjustment}
+      background_light: {name: Kettle light}
+      state_led: {name: Kettle state LED}
+      beeper: {name: Kettle beeper}
+skyplug:
+  - mac_address: 00:00:00:00:00:02
+    model: RSP-100S
+    controlling:
+      power: {name: Plug power}
+      lock: {name: Plug lock}
+      remember_state: {name: Plug memory}
+skycoffee:
+  - mac_address: 00:00:00:00:00:03
+    model: RCM-M1519S
+    controlling:
+      power: {name: Coffee power}
+skycooker:
+  - mac_address: 00:00:00:00:00:04
+    model: RMC-M222S
+    controlling:
+      power: {name: Cooker power}
+      cooking_mode: {name: Cooker mode}
+skybaker:
+  - mac_address: 00:00:00:00:00:05
+    model: RMB-M656/3S
+    controlling:
+      power: {name: Baker power}
+      baking_mode: {name: Baker mode}
+skydew:
+  - mac_address: 00:00:00:00:00:06
+    model: RHF-3317S
+    informing:
+      humidity: {name: Dew humidity}
+      temperature: {name: Dew temperature}
+    controlling:
+      power: {name: Dew power}
+skyheat:
+  - mac_address: 00:00:00:00:00:07
+    model: RCH-7001S
+    controlling:
+      power: {name: Heat power}
+      target_power: {name: Heat target power}
+skyiron:
+  - mac_address: 00:00:00:00:00:08
+    model: RI-C250S
+    informing: {}
+    controlling:
+      power: {name: Iron power}
+skysmoke:
+  - mac_address: 00:00:00:00:00:09
+    model: RSS-61S
+    informing:
+      smoke: {name: Smoke}
+      temperature: {name: Smoke temperature}

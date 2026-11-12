@@ -1,0 +1,46 @@
+# ШАБЛОН для YAML, лежащего прямо в /config/esphome/.
+# Замените MAC, модель и secrets; обычно достаточно перенести нужные разделы
+# в вашу существующую конфигурацию ESP32, сохранив её настройки подключения.
+esphome:
+  name: ready4sky-coffee
+
+esp32:
+  board: esp32dev  # выберите вашу фактическую плату
+  framework:
+    type: esp-idf
+
+logger:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+time:
+  - platform: homeassistant
+    id: r4s_clock
+
+external_components:
+  - source:
+      type: local
+      path: ESPHome-Ready4Sky/components
+
+ready4sky:
+  time_id: r4s_clock
+
+skycoffee:
+  - mac_address: AA:BB:CC:DD:EE:01  # ЗАМЕНИТЬ на Bluetooth MAC вашей кофеварки
+    model: RCM-M1519S               # ЗАМЕНИТЬ на точную модель
+    informing:
+      signal_strength:
+        name: Кофеварка RSSI
+    controlling:
+      power:
+        name: Кофеварка

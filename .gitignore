@@ -1,0 +1,12 @@
+# ESPHome-generated firmware and toolchain output
+.esphome/
+**/.esphome/
+
+# Python and host test artifacts
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Local credentials
+secrets.yaml
+**/secrets.yaml
